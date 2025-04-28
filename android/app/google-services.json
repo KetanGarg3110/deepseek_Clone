@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "204681314933",
+    "project_id": "deepseek-12f27",
+    "storage_bucket": "deepseek-12f27.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:204681314933:android:2fe3014a94433313a0ee3c",
+        "android_client_info": {
+          "package_name": "com.example.deepseek"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCS9DZkkNl-NzCE8BqoLgKvWlCpceC2pNc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
