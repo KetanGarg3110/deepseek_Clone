@@ -7,15 +7,17 @@ class AiGeneratedModel {
   List<Choices>? choices;
   Usage? usage;
 
-  AiGeneratedModel(
-      {this.id,
-        this.provider,
-        this.model,
-        this.object,
-        this.created,
-        this.choices,
-        this.usage});
+  AiGeneratedModel({
+    this.id,
+    this.provider,
+    this.model,
+    this.object,
+    this.created,
+    this.choices,
+    this.usage,
+  });
 
+  // deserilization
   AiGeneratedModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     provider = json['provider'];
@@ -25,24 +27,24 @@ class AiGeneratedModel {
     if (json['choices'] != null) {
       choices = <Choices>[];
       json['choices'].forEach((v) {
-        choices!.add(new Choices.fromJson(v));
+        choices!.add(Choices.fromJson(v));
       });
     }
-    usage = json['usage'] != null ? new Usage.fromJson(json['usage']) : null;
+    usage = json['usage'] != null ? Usage.fromJson(json['usage']) : null;
   }
-
+  // serialization
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['provider'] = this.provider;
-    data['model'] = this.model;
-    data['object'] = this.object;
-    data['created'] = this.created;
-    if (this.choices != null) {
-      data['choices'] = this.choices!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['provider'] = provider;
+    data['model'] = model;
+    data['object'] = object;
+    data['created'] = created;
+    if (choices != null) {
+      data['choices'] = choices!.map((v) => v.toJson()).toList();
     }
-    if (this.usage != null) {
-      data['usage'] = this.usage!.toJson();
+    if (usage != null) {
+      data['usage'] = usage!.toJson();
     }
     return data;
   }
@@ -55,12 +57,13 @@ class Choices {
   int? index;
   Message? message;
 
-  Choices(
-      {this.logprobs,
-        this.finishReason,
-        this.nativeFinishReason,
-        this.index,
-        this.message});
+  Choices({
+    this.logprobs,
+    this.finishReason,
+    this.nativeFinishReason,
+    this.index,
+    this.message,
+  });
 
   Choices.fromJson(Map<String, dynamic> json) {
     logprobs = json['logprobs'];
@@ -68,17 +71,17 @@ class Choices {
     nativeFinishReason = json['native_finish_reason'];
     index = json['index'];
     message =
-    json['message'] != null ? new Message.fromJson(json['message']) : null;
+        json['message'] != null ? Message.fromJson(json['message']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['logprobs'] = this.logprobs;
-    data['finish_reason'] = this.finishReason;
-    data['native_finish_reason'] = this.nativeFinishReason;
-    data['index'] = this.index;
-    if (this.message != null) {
-      data['message'] = this.message!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['logprobs'] = logprobs;
+    data['finish_reason'] = finishReason;
+    data['native_finish_reason'] = nativeFinishReason;
+    data['index'] = index;
+    if (message != null) {
+      data['message'] = message!.toJson();
     }
     return data;
   }
@@ -100,11 +103,11 @@ class Message {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['role'] = this.role;
-    data['content'] = this.content;
-    data['refusal'] = this.refusal;
-    data['reasoning'] = this.reasoning;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['role'] = role;
+    data['content'] = content;
+    data['refusal'] = refusal;
+    data['reasoning'] = reasoning;
     return data;
   }
 }
@@ -123,10 +126,10 @@ class Usage {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['prompt_tokens'] = this.promptTokens;
-    data['completion_tokens'] = this.completionTokens;
-    data['total_tokens'] = this.totalTokens;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['prompt_tokens'] = promptTokens;
+    data['completion_tokens'] = completionTokens;
+    data['total_tokens'] = totalTokens;
     return data;
   }
 }

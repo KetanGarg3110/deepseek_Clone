@@ -1,7 +1,19 @@
-
 // https://openrouter.ai/api/v1  :- this is our domin
-class Urls{
+class Urls {
   static const String BASE_URL = "https://openrouter.ai/api/v1/";
-  static const String CHAT_COMPELETION_API ="${BASE_URL}chat/completions";
-  static const String CHAT_COMPELETION_API_KEY ="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";
+  static const String CHAT_COMPELETION_API = "\chat/completions";
+  static const String CHAT_COMPELETION_API_KEY = String.fromEnvironment(
+    'CHAT_COMPELETION_API_KEY',
+    defaultValue: '',
+  );
+
+  static const String IMAGE_COMPELETION_API_KEY = String.fromEnvironment(
+    'IMAGE_COMPELETION_API_KEY',
+    defaultValue: '',
+  );
+
+  static const String VIDEO_COMPELETION_API_KEY = String.fromEnvironment(
+    'VIDEO_COMPELETION_API_KEY',
+    defaultValue: '',
+  );
 }

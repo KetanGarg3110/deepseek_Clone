@@ -9,7 +9,9 @@ plugins {
 }
 
 android {
+
     namespace = "com.example.deepseek"
+
     compileSdk = 35
 
 
@@ -30,7 +32,7 @@ android {
         minSdk = 23
         targetSdk = 35
         versionCode = 1
-        versionName = flutter.versionName
+        versionName = "1.0"
         ndkVersion = "27.0.12077973"
     }
 

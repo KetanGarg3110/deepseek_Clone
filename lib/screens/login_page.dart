@@ -1,4 +1,5 @@
 import 'package:deepseek/provider/auth_provider.dart';
+import 'package:deepseek/screens/ForgetPassword.dart';
 import 'package:deepseek/screens/regestration_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -8,7 +9,6 @@ class DeepSeekLogin extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final authProvider = Provider.of<AuthProvider>(context);
 
     return Scaffold(
@@ -57,14 +57,16 @@ class DeepSeekLogin extends StatelessWidget {
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  contentPadding:
-                  const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 14,
+                  ),
                 ),
-                validator:  (value) {
-                  if(value ==null || value.isEmpty){
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
                     return "Enter Email";
                   }
-                  if(!RegExp(r'\S+@\S+\.\S+').hasMatch(value)){
+                  if (!RegExp(r'\S+@\S+\.\S+').hasMatch(value)) {
                     return "Enter valid email";
                   }
                   return null;
@@ -75,15 +77,26 @@ class DeepSeekLogin extends StatelessWidget {
               // Password
               TextFormField(
                 controller: authProvider.passwordController,
-                obscureText: true,
+                obscureText: authProvider.obscureLoginPassword,
                 decoration: InputDecoration(
                   hintText: 'Password',
-                  suffixIcon: Icon(Icons.visibility),
+                  suffixIcon: IconButton(
+                    onPressed: () {
+                      authProvider.obsLoginPassword();
+                    },
+                    icon: Icon(
+                      authProvider.obscureLoginPassword
+                          ? Icons.visibility_off
+                          : Icons.visibility,
+                    ),
+                  ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  contentPadding:
-                  const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 14,
+                  ),
                 ),
                 validator: (value) {
                   if (value == null || value.length < 6) {
@@ -99,8 +112,10 @@ class DeepSeekLogin extends StatelessWidget {
                 TextSpan(
                   children: [
                     TextSpan(
-                        text: 'By signing up or logging in, you consent to DeepSeek\'s ',
-                        style: TextStyle(fontSize: 12, color: Colors.black54)),
+                      text:
+                          'By signing up or logging in, you consent to DeepSeek\'s ',
+                      style: TextStyle(fontSize: 12, color: Colors.black54),
+                    ),
                     TextSpan(
                       text: 'Terms of Use',
                       style: TextStyle(
@@ -130,8 +145,10 @@ class DeepSeekLogin extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: authProvider.isLoading
-                  ? null :()=> authProvider.logIn(context),
+                  onPressed:
+                      authProvider.isLoading
+                          ? null
+                          : () => authProvider.logIn(context),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color(0xFF4C66FB),
                     padding: const EdgeInsets.symmetric(vertical: 16),
@@ -139,16 +156,17 @@ class DeepSeekLogin extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                  child: authProvider.isLoading
-                  ?const CircularProgressIndicator(color: Colors.white,)
-                  :const Text(
-                    'Log in',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                      color: Colors.white,
-                    ),
-                  ),
+                  child:
+                      authProvider.isLoading
+                          ? const CircularProgressIndicator(color: Colors.white)
+                          : const Text(
+                            'Log in',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                              color: Colors.white,
+                            ),
+                          ),
                 ),
               ),
               const SizedBox(height: 8),
@@ -158,25 +176,37 @@ class DeepSeekLogin extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   TextButton(
-                    onPressed: () {},
+                    onPressed:
+                        authProvider.isLoading
+                            ? null
+                            : () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ResetPasswordPage(),
+                                ),
+                              );
+                            },
                     child: const Text(
                       'Forgot password?',
-                      style: TextStyle(
-                        color: Colors.blue,
-                      ),
+                      style: TextStyle(color: Colors.blue),
                     ),
                   ),
                   TextButton(
-                    onPressed: authProvider.isLoading
-                      ? null
-                      :() {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => DeepSeekSignUp(),));
-                    },
+                    onPressed:
+                        authProvider.isLoading
+                            ? null
+                            : () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => DeepSeekSignUp(),
+                                ),
+                              );
+                            },
                     child: const Text(
                       'Sign up',
-                      style: TextStyle(
-                        color: Colors.blue,
-                      ),
+                      style: TextStyle(color: Colors.blue),
                     ),
                   ),
                 ],
@@ -198,9 +228,15 @@ class DeepSeekLogin extends StatelessWidget {
 
               // Google Login
               OutlinedButton.icon(
-                onPressed: () {},
+                onPressed:
+                    authProvider.isLoading
+                        ? null
+                        : () => authProvider.signInWithGoogle(context),
                 style: OutlinedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 16,horizontal: 50),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 16,
+                    horizontal: 50,
+                  ),
                   side: BorderSide(color: Colors.black12),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
@@ -222,6 +258,4 @@ class DeepSeekLogin extends StatelessWidget {
       ),
     );
   }
-
-
 }

@@ -4,14 +4,12 @@ import 'package:provider/provider.dart';
 
 import '../provider/auth_provider.dart';
 
-
-
 class DeepSeekSignUp extends StatelessWidget {
   const DeepSeekSignUp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final authProvider =Provider.of<AuthProvider>(context);
+    final authProvider = Provider.of<AuthProvider>(context);
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -62,10 +60,10 @@ class DeepSeekSignUp extends StatelessWidget {
                   ),
                 ),
                 validator: (value) {
-                  if(value ==null || value.isEmpty){
+                  if (value == null || value.isEmpty) {
                     return 'Enter email';
                   }
-                  if(!RegExp(r'\S+@\S+\.\S+').hasMatch(value)){
+                  if (!RegExp(r'\S+@\S+\.\S+').hasMatch(value)) {
                     return "Enter valid email";
                   }
                   return null;
@@ -74,82 +72,109 @@ class DeepSeekSignUp extends StatelessWidget {
               const SizedBox(height: 12),
 
               // Password Field
-              TextFormField(
-                controller: authProvider.passwordController,
-                obscureText: true,
-                decoration: InputDecoration(
-                  hintText: 'Password',
-                  prefixIcon: Icon(Icons.lock_outline),
-                  suffixIcon: Icon(Icons.visibility),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
-                validator: (value) {
-                  if (value == null || value.length < 6) {
-                    return 'Password must be at least 6 characters';
-                  }
-                  return null;
+
+              Consumer(
+                builder: (context, value, child) {
+                  return TextFormField(
+                    controller: authProvider.passwordController,
+                    obscureText: authProvider.obscurePassword,
+                    decoration: InputDecoration(
+                      hintText: 'Password',
+                      prefixIcon: Icon(Icons.lock_outline),
+                      suffixIcon: IconButton(
+                        onPressed: () {
+                          authProvider.obsPassword();
+                        },
+                        icon: Icon(
+                          authProvider.obscurePassword
+                              ? Icons.visibility_off
+                              : Icons.visibility,
+                        ),
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.length < 6) {
+                        return 'Password must be at least 6 characters';
+                      }
+                      return null;
+                    },
+                  );
                 },
               ),
               const SizedBox(height: 12),
 
               // Confirm Password
-              TextFormField(
-                controller: authProvider.confirmPasswordController,
-                obscureText: true,
-                decoration: InputDecoration(
-                  hintText: 'Confirm password',
-                  prefixIcon: Icon(Icons.lock_outline),
-                  suffixIcon: Icon(Icons.visibility),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
-                validator: (value) {
-                  if (value != authProvider.passwordController) {
-                    return 'Passwords do not match';
-                  }
-                  return null;
+              Consumer(
+                builder: (context, provider, child) {
+                  return TextFormField(
+                    controller: authProvider.confirmPasswordController,
+                    obscureText: authProvider.obscureConfirmPassword,
+                    decoration: InputDecoration(
+                      hintText: 'Confirm password',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      prefixIcon: Icon(Icons.lock_outline),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          authProvider.obscureConfirmPassword
+                              ? Icons.visibility_off
+                              : Icons.visibility,
+                        ),
+                        onPressed: () {
+                          authProvider.obsConfirmPassword();
+                        },
+                      ),
+                    ),
+                    validator: (value) {
+                      if (value != authProvider.passwordController) {
+                        return 'Passwords do not match';
+                      }
+                      return null;
+                    },
+                  );
                 },
               ),
               const SizedBox(height: 12),
 
-              // Code Field + Send Code
-              Row(
-                children: [
-                  Expanded(
-                    flex: 3,
-                    child: TextFormField(
-                      controller: authProvider.codeController,
-                      decoration: InputDecoration(
-                        hintText: 'Code',
-                        prefixIcon: Icon(Icons.tag_outlined),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    flex: 2,
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        backgroundColor: Colors.grey.shade200,
-                        foregroundColor: Colors.black87,
-                      ),
-                      child: const Text('Send code'),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 14),
+              // // Code Field + Send Code
+              // Row(
+              //   children: [
+              //     Expanded(
+              //       flex: 3,
+              //       child: TextFormField(
+              //         controller: authProvider.codeController,
+              //         decoration: InputDecoration(
+              //           hintText: 'Code',
+              //           prefixIcon: Icon(Icons.tag_outlined),
+              //           border: OutlineInputBorder(
+              //             borderRadius: BorderRadius.circular(8),
+              //           ),
+              //         ),
+              //       ),
+              //     ),
+              //     const SizedBox(width: 10),
+              //     Expanded(
+              //       flex: 2,
+              //       child: ElevatedButton(
+              //         onPressed: () {},
+              //         style: ElevatedButton.styleFrom(
+              //           padding: const EdgeInsets.symmetric(vertical: 16),
+              //           shape: RoundedRectangleBorder(
+              //             borderRadius: BorderRadius.circular(8),
+              //           ),
+              //           backgroundColor: Colors.grey.shade200,
+              //           foregroundColor: Colors.black87,
+              //         ),
+              //         child: const Text('Send code'),
+              //       ),
+              //     ),
+              //   ],
+              // ),
+              // const SizedBox(height: 14),
 
               // Terms
               const Text.rich(
@@ -188,9 +213,10 @@ class DeepSeekSignUp extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: authProvider.isLoading
-                  ?null
-                  :()=> authProvider.signUp(context),
+                  onPressed:
+                      authProvider.isLoading
+                          ? null
+                          : () => authProvider.signUp(context),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color(0xFF4C66FB),
                     padding: const EdgeInsets.symmetric(vertical: 16),
@@ -212,13 +238,15 @@ class DeepSeekSignUp extends StatelessWidget {
               // Login Text
               const SizedBox(height: 12),
               TextButton(
-                onPressed: authProvider.isLoading
-                ?null:(){
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (_) => DeepSeekLogin()),
-                  );
-                },
+                onPressed:
+                    authProvider.isLoading
+                        ? null
+                        : () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (_) => DeepSeekLogin()),
+                          );
+                        },
                 child: const Text(
                   'Log in',
                   style: TextStyle(color: Colors.blue),

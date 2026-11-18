@@ -13,29 +13,33 @@ class ApiHelper {
     try {
       // jab bhi data ko send kar rahe ho to post main hi hogi
       var mUri = Uri.parse(url);
+
       var response = await httpClient.post(
         mUri,
         // jana main pana ho to jsonEncode
         body: jsonEncode({
-          "model": "deepseek/deepseek-r1:free",
+          "model": "deepseek/deepseek-r1-0528:free",
           "messages": [
-            {"role": "user", "content": prompt},
-          ],
-        }),
+            {
+              "role": "user",
+              "content": prompt,
+            }
+          ]
+        }), // body: jsonEncode({
         headers: {
           "Content-Type": "application/json",
           "Authorization": "Bearer ${Urls.CHAT_COMPELETION_API_KEY}",
         },
       );
-    //  print(response.body.toString());
+      //  print(response.body.toString());
       print('Api Response :${response.body}');
       // In Flutter, a status code refers to the HTTP response status received from an API when making network requests using packages like http or dio
       if (response.statusCode == 200) {
-         Map<String,dynamic> mData = jsonDecode(response.body);
+        Map<String, dynamic> mData = jsonDecode(response.body);
 
-         // Safely access message content
+        // Safely access message content
         String content = mData['choices'][0]['message']['content'];
-         print(content);  // Output: Hello! How can I assist you today?
+        print(content); // Output: Hello! How can I assist you today?
 
         if (mData['error'] != null) {
           throw (HttpException("Error : ${mData['error']['message']}"));
@@ -44,7 +48,7 @@ class ApiHelper {
           return mData;
         }
       } else {
-        // essme alag alg status codes ki exception handling kar sakte hai .
+        // esme alag alg status codes ki exception handling kar sakte hai .
         // Server returned an error status code
         throw (HttpException("Server error :${response.statusCode}"));
       }

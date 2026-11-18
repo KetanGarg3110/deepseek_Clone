@@ -1,26 +1,24 @@
 import 'package:deepseek/models/onboardingContentModel.dart';
 import 'package:deepseek/provider/onBoardingProvider.dart';
-import 'package:deepseek/screens/chat_screen.dart';
-import 'package:deepseek/screens/home_screen.dart';
 import 'package:deepseek/screens/login_page.dart';
 import 'package:deepseek/utiles/util_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
-
 import '../utiles/pref_helper.dart';
 
 class OnBoardScreen extends StatelessWidget {
-//   const OnBoardScreen({super.key});
-//
-//   @override
-//   State<OnBoardScreen> createState() => _OnBoardScreenState();
-// }
-//
-// class _OnBoardScreenState extends State<OnBoardScreen> {
-//   var currentIndex = 0;
-//   late PageController _pageController;
+  const OnBoardScreen({super.key});
+
+  //   const OnBoardScreen({super.key});
+  //
+  //   @override
+  //   State<OnBoardScreen> createState() => _OnBoardScreenState();
+  // }
+  //
+  // class _OnBoardScreenState extends State<OnBoardScreen> {
+  //   var currentIndex = 0;
+  //   late PageController _pageController;
 
   // @override
   // void initState() {
@@ -36,7 +34,7 @@ class OnBoardScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final provider =Provider.of<OnBoardingProvider>(context);
+    final provider = Provider.of<OnBoardingProvider>(context);
 
     // initState for StatelessWidget
     // WidgetsBinding.instance.addPostFrameCallback((_){
@@ -94,17 +92,16 @@ class OnBoardScreen extends StatelessWidget {
                 onPressed: () {
                   if (provider.currentIndex == contents.length - 1) {
                     // Save onboarding status with help of Hive not a sharedPref.
-                    Pref.showOnBoarding =false;
+                    Pref.showOnBoarding = false;
 
                     // Continue ke baad kya hoga
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                        builder:
-                            (context) => const DeepSeekLogin()
+                        builder: (context) => const DeepSeekLogin(),
                       ),
                     );
-                  }else {
+                  } else {
                     // next vala option hai
                     // _pageController.nextPage(
                     //   duration: Duration(milliseconds: 100),
@@ -114,7 +111,9 @@ class OnBoardScreen extends StatelessWidget {
                   }
                 },
                 child: Text(
-                  provider.currentIndex == contents.length - 1 ? "Continue" : "Next",
+                  provider.currentIndex == contents.length - 1
+                      ? "Continue"
+                      : "Next",
                   style: mTextStyle16(
                     mColor: Colors.white,
                     mFontWeight: FontWeight.bold,

@@ -1,4 +1,3 @@
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:deepseek/provider/chat_provider.dart';
 import 'package:deepseek/utiles/util_helper.dart';
 import 'package:deepseek/widgets/bot_widget.dart';
@@ -35,15 +34,15 @@ class _ChatScreenState extends State<ChatScreen> {
     if (!_isListening) {
       bool available = await _speechToText.initialize(
         onStatus: (status) {
-          if(status== "done" || status == "notListening"){
-            setState(() => _isListening=false);
-            }
+          if (status == "done" || status == "notListening") {
+            setState(() => _isListening = false);
+          }
           print('Status: $status');
-            },
+        },
         onError: (errorNotification) {
           print('Error: $errorNotification');
           setState(() {
-            _isListening=false;
+            _isListening = false;
           });
         },
       );
@@ -88,6 +87,7 @@ class _ChatScreenState extends State<ChatScreen> {
       listen: false,
     ).sendMyPrompt(prompt: promptController.text.trim());
     promptController.clear();
+    // Save message to hive
   }
 
   Widget _buildInputField() {
@@ -134,8 +134,9 @@ class _ChatScreenState extends State<ChatScreen> {
         Expanded(
           child: Center(
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                SizedBox(height: 70),
+                SizedBox(height: 60),
                 Image.asset(
                   'assets/images/deepseekLogo.png',
                   width: 200,
@@ -155,7 +156,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   child: SelectableText(
                     'You can tell anything  you want they can generate answer ',
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 15, color: Colors.white,),
+                    style: TextStyle(fontSize: 15, color: Colors.white),
                   ),
                 ),
               ],

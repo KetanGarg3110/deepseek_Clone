@@ -14,7 +14,7 @@ class BotMessageWidget extends StatefulWidget {
 class _BotMessageWidgetState extends State<BotMessageWidget> {
   @override
   Widget build(BuildContext context) {
-    bool _shouldAnimate = !widget.messageModel.isAnimated;
+    bool shouldAnimate = !widget.messageModel.isAnimated;
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
@@ -25,7 +25,7 @@ class _BotMessageWidgetState extends State<BotMessageWidget> {
             backgroundColor: Colors.black,
             radius: 20,
             child: Image.asset(
-              "assets/images/bot_Icon.png",
+              "assets/images/bot_icon.png",
               width: 20,
               height: 20,
             ),
@@ -39,7 +39,7 @@ class _BotMessageWidgetState extends State<BotMessageWidget> {
                 borderRadius: BorderRadius.circular(8),
               ),
               child:
-                  _shouldAnimate
+                  shouldAnimate
                       ? DefaultTextStyle(
                         style: mTextStyle16(
                           mColor: Colors.black,
