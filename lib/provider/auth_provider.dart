@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:deepseek/screens/home_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
@@ -90,7 +91,7 @@ class AuthProvider extends ChangeNotifier {
     setLoading(true);
     try {
       if (kIsWeb) {
-        // Web : Use signInWithPop
+        // Web : Use signInWithPopup
         GoogleAuthProvider googleAuthProvider = GoogleAuthProvider();
 
         await FirebaseAuth.instance.signInWithPopup(googleAuthProvider);
@@ -100,6 +101,13 @@ class AuthProvider extends ChangeNotifier {
           MaterialPageRoute(builder: (context) => HomeScreen()),
         );
         _showMessage(context, "SignUp Successful");
+      } else if (!Platform.isAndroid && !Platform.isIOS) {
+        _showMessage(
+          context,
+          "Google Sign-In is only supported on Android, iOS, and Web. Please use Email/Password on Windows.",
+        );
+        setLoading(false);
+        return;
       } else {
         //Mobile : Use GoogleSignIn + FirebaseAuth
         // Trigger Authentication Flow

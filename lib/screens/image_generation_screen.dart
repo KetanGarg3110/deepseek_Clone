@@ -1,4 +1,6 @@
+import 'dart:io';
 import 'dart:typed_data';
+import 'package:flutter/foundation.dart';
 import 'package:deepseek/provider/image_provider.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -16,24 +18,32 @@ class ImageGeneratorScreen extends StatefulWidget {
 class _ImageGeneratorScreenState extends State<ImageGeneratorScreen> {
   /// Why we use video player ?
   /// Because of the lottie file has mp4 exetention.
-  late VideoPlayerController _videoPlayerController;
+  VideoPlayerController? _videoPlayerController;
+  bool _isVideoSupported = false;
 
   @override
   void initState() {
     super.initState();
-    _videoPlayerController = VideoPlayerController.asset(
-        'assets/videos/aiRobotChatbot.mp4',
-      )
-      ..initialize().then((_) {
-        setState(() {});
-        _videoPlayerController.setLooping(true);
-        _videoPlayerController.play();
-      });
+    _isVideoSupported = !kIsWeb && (Platform.isAndroid || Platform.isIOS || Platform.isMacOS);
+    if (_isVideoSupported) {
+      _videoPlayerController = VideoPlayerController.asset(
+          'assets/videos/aiRobotChatbot.mp4',
+        )
+        ..initialize().then((_) {
+          if (mounted) {
+            setState(() {});
+            _videoPlayerController?.setLooping(true);
+            _videoPlayerController?.play();
+          }
+        }).catchError((error) {
+          print('VideoPlayer error: $error');
+        });
+    }
   }
 
   @override
   void dispose() {
-    _videoPlayerController.dispose();
+    _videoPlayerController?.dispose();
     super.dispose();
   }
 
@@ -128,15 +138,23 @@ class _ImageGeneratorScreenState extends State<ImageGeneratorScreen> {
                   ),
                 ],
               ),
-            ] else
-              ///Checks if the video controller has finished initializing.
-              _videoPlayerController.value.isInitialized
-                  ///If initialized, show the video player in the correct aspect ratio.
-                  ? AspectRatio(
-                    aspectRatio: _videoPlayerController.value.aspectRatio,
-                    child: VideoPlayer(_videoPlayerController),
-                  )
-                  : Center(child: CircularProgressIndicator()),
+            ] else if (_isVideoSupported &&
+                _videoPlayerController != null &&
+                _videoPlayerController!.value.isInitialized)
+              AspectRatio(
+                aspectRatio: _videoPlayerController!.value.aspectRatio,
+                child: VideoPlayer(_videoPlayerController!),
+              )
+            else
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 20),
+                  child: Image.asset(
+                    'assets/images/deepseekLogo.png',
+                    height: 200,
+                  ),
+                ),
+              ),
           ],
         ),
       ),

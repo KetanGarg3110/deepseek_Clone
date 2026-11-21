@@ -284,10 +284,10 @@ class _ChatScreenState extends State<ChatScreen> {
             children: [
               Padding(
                 padding: const EdgeInsets.only(left: 8.0),
-                child: Image.network(
-                  'https://artificialanalysis.ai/img/logos/deepseek.png',
-                  width: 100,
-                  height: 80,
+                child: Image.asset(
+                  'assets/images/icons8-deepseek-50.png',
+                  width: 50,
+                  height: 50,
                   fit: BoxFit.contain,
                 ),
               ),
