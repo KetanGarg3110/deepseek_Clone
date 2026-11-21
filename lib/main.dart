@@ -32,7 +32,7 @@ Future<void> main() async {
   //   await dotenv.load(fileName: ".env");
   // }
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  if(!kIsWeb) {
+  if (!kIsWeb && (Platform.isAndroid || Platform.isIOS)) {
     await MobileAds.instance.initialize();
   }
   // Required for desktop (Windows, Linux, macOS) or Web if using sqflite_common_ffi

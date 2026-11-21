@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:deepseek/ad_helper/ad_helper.dart';
 import 'package:deepseek/models/home_type.dart';
 import 'package:deepseek/provider/theme_provider.dart';
@@ -24,7 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
 
-    if (!kIsWeb) {
+    if (!kIsWeb && (Platform.isAndroid || Platform.isIOS)) {
       /// this is for Banner
       BannerAd(
         size: AdSize.banner,
